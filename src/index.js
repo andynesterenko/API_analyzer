@@ -1,10 +1,17 @@
 import express from "express"
 import dotenv from "dotenv"
 import axios from "axios"
+import mongoose from "mongoose"
 
 const app = express()
 app.use(express.json())
 dotenv.config()
+
+const dbConnection = () => {
+  mongoose.connect(process.env.DB_URL).
+  then(() => console.log("Connection to the database is successful")).
+  catch((error) => console.log(error))
+}
 
 app.post("/api/apiURL", async (req, res) => {
     
@@ -28,4 +35,5 @@ app.post("/api/apiURL", async (req, res) => {
 
 app.listen(process.env.PORT, () => {
     console.log(`Application is listening on ${process.env.PORT} port`)
+    dbConnection()
 })
